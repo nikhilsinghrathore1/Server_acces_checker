@@ -22,6 +22,8 @@
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![Axios](https://img.shields.io/badge/Axios-000000?style=for-the-badge&logo=axios&logoColor=white)](https://axios-http.com/)
 
 
 </div>
@@ -32,10 +34,10 @@
 
 - **Effortless Access Control:**  Grant or deny access to your server with ease. 🔑
 - **Real-time Monitoring:**  Track access attempts and identify unauthorized activity. 📊
-- **Secure Authentication:**  Robust security measures protect your server from breaches. 🛡️
-- **Customizable Permissions:**  Define granular access levels for different users or groups. ⚙️
+- **Secure Authentication:**  Robust security measures protect your server from breaches. 🛡️  *(Requires backend implementation)*
+- **Customizable Permissions:**  Define granular access levels for different users or groups. ⚙️ *(Requires backend implementation)*
 - **User-Friendly Interface:**  Intuitive design for seamless user experience. 📱
-- **Detailed Logging:**  Comprehensive logs for auditing and troubleshooting. 📚
+- **Detailed Logging:**  Comprehensive logs for auditing and troubleshooting. 📚 *(Requires backend implementation)*
 
 
 ---
@@ -47,6 +49,7 @@
 | Node.js         | [![Node.js](https://img.shields.io/badge/Node.js-43853D?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/) |
 | React           | [![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)](https://reactjs.org/) |
 | JavaScript      | [![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=flat-square&logo=javascript&logoColor=%23F7DF1E)](https://developer.mozilla.org/en-US/docs/Web/JavaScript) |
+| Express.js      | [![Express.js](https://img.shields.io/badge/Express.js-000000?style=flat-square&logo=express&logoColor=white)](https://expressjs.com/) |
 | Axios           | [![Axios](https://img.shields.io/badge/Axios-000000?style=flat-square&logo=axios&logoColor=white)](https://axios-http.com/) |
 
 
@@ -56,34 +59,35 @@
 
 1. **Clone the repository:** `git clone https://github.com/nikhilsinghrathore1/Server_acces_checker.git`
 2. **Navigate to the project directory:** `cd Server_acces_checker`
-3. **Install dependencies:** `npm install`
-4. **Start the server:** `npm start`
+3. **Install frontend dependencies:** `npm install`
+4. **Start the development server:** `npm run dev`
+
+> **Note:** This only starts the *frontend*. You will need to create and run a separate backend server (e.g., using Express.js) to handle access control logic.
 
 
 ---
 
 ## 📖 Detailed Usage  📚
 
-This application uses a simple React frontend to communicate with a Node.js backend (not included in this repository, you will need to create your own backend). The frontend makes a GET request to `/access` endpoint on your backend.  Your backend should respond with `{"acces": "granted"}` if access is allowed, or any other response if access is denied.
+This application uses a React frontend to communicate with a Node.js backend (you need to implement the backend). The frontend makes a GET request to the `/access` endpoint. The backend should respond with `{"acces": "granted"}` for allowed access, or a different response for denied access.
 
 **Frontend (src/App.jsx):**
 
 ```javascript
-// ... (App.jsx code from provided files) ...
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+// ... (rest of App.jsx code) ...
 ```
 
-**Backend (Example - you need to implement this):**
-
-This is a placeholder, you will need to create your own backend implementation using Node.js and express or similar.
+**Backend (Example - using Express.js):**
 
 ```javascript
-// Example using Express.js (Requires installation: npm install express)
 const express = require('express');
 const app = express();
 const port = 3000;
 
 app.get('/access', (req, res) => {
-  // Implement your access control logic here.  Example:
+  // Implement your access control logic here. Example:
   const isAuthorized = true; // Replace with your authentication logic
   if (isAuthorized) {
     res.json({ acces: "granted" });
@@ -95,70 +99,68 @@ app.get('/access', (req, res) => {
 app.listen(port, () => console.log(`Server listening on port ${port}`));
 ```
 
-
 ---
 
 ## 🏗️ Project Structure 📁
 
 ```
 Server_acces_checker/
-├── src/
-│   ├── App.jsx
-│   ├── index.css
+├── src/             // React frontend source code
+│   ├── App.jsx      // Main React component
+│   ├── index.css    // Styles
 │   └── ...
-├── public/
+├── public/          // Static files
 │   └── index.html
-├── vite.config.js
-├── package.json
+├── vite.config.js   // Vite configuration
+├── package.json     // Project dependencies
 └── ...
 ```
-
 
 ---
 
 ## 🎯 API Documentation 📄
 
-| Endpoint     | Method | Description                                      | Response (Success)     | Response (Error)       |
-|---------------|--------|--------------------------------------------------|-------------------------|--------------------------|
-| `/access`     | `GET`  | Checks if access is granted.                    | `{"acces": "granted"}` | `{"acces": "denied"}` or appropriate HTTP error code |
+| Endpoint     | Method | Description                                      | Request Body     | Response (Success)     | Response (Error)       |
+|---------------|--------|--------------------------------------------------|--------------------|-------------------------|--------------------------|
+| `/access`     | `GET`  | Checks if access is granted.                    | None               | `{"acces": "granted"}` | `{"acces": "denied"}` or appropriate HTTP error code |
 
 
 ---
 
 ## 🔧 Configuration Options ⚙️
 
-| Option        | Type    | Default | Description                                          |
-|----------------|---------|---------|------------------------------------------------------|
-| `PORT`         | `number` | `3000`  | Port number for the server.                           |
+**(Frontend - vite.config.js is used for build configuration.  Backend configuration would be in a separate file.)**
 
+<details><summary><strong>Frontend Configuration (vite.config.js)</strong></summary>
+
+Vite handles frontend build configuration.  Refer to `vite.config.js` for details.
+
+</details>
 
 ---
 
 ## 📸 Screenshots/Demo 🖼️
 
-**(Add screenshots or GIFs here to showcase the application)**
+**(Add screenshots or GIFs here to showcase the application.  Consider showing both the frontend and a mockup of the backend interface if you choose to implement one.)**
 
 
 ---
 
 ## 🤝 Contributing Guidelines 🫂
 
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch.
-3. Make your changes.
-4. Test your changes thoroughly.
-5. Commit your changes with clear and concise messages.
-6. Push your branch to your forked repository.
-7. Create a pull request.
+1. **Fork** the repository.
+2. **Create a branch:**  `git checkout -b feature/your-feature`
+3. **Make your changes.**
+4. **Commit:** `git commit -m "Your descriptive commit message"`
+5. **Push:** `git push origin feature/your-feature`
+6. **Create a pull request.**
 
 
 ---
 
 ## 📜 License & Acknowledgments 🙏
 
-This project is licensed under the MIT License.  We thank all contributors for their hard work and dedication!
+This project is licensed under the MIT License.  Thanks to all contributors!
 
 
 ---

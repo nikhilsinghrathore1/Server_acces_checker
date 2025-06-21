@@ -21,6 +21,7 @@ function App() {
       console.log("testeins")
       console.log("testeing")
       console.log("testeing")
+      console.log("testeingadsfasf")
       }
       else{
        setloading(false)

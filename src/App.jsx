@@ -2,23 +2,44 @@ import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import axios from 'axios'
+import { flushSync } from 'react-dom'
 
 function App() {
   
   const [acces, setacces] = useState(false)
-  useEffect(() => {
-    const token = localStorage.getItem("cacAcces")
-  if(token){
-    setacces(true)
+  const [loading, setloading] = useState(true)
+
+  const checking = async()=>{
+    try{
+      const res = await axios.get("http://localhost:3000/access")
+      // console.log(res.data.acces)
+      if(res.data.acces === "granted")
+      {
+        setloading(false)
+      setacces(true)
+      }
+      else{
+       setloading(false)
+      }
+    }
+    catch(err)
+    {
+
+    }
   }
+
+  useEffect(() => {
+    checking()
   
-  }, [setacces])
+  }, [setacces , setloading])
   
 
+  
 
   return (
     <>
-  {acces?
+  { loading? (<h1>loading</h1>): acces?
 
 (<div class="landing-page">
         <header>
